@@ -1,0 +1,25 @@
+---
+title: 'Econometric Game 2021 - Team Göttingen'
+author: "Chris-Gabriel Islam, Jens Lichter, Alexander Ritz and Rouven Schmidt"
+date: "09/04/2021"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
+---
+
+This is a dynamic report for the Econometric Game 2021 - Team Göttingen. In the first chapter we analyze the data and justify our edits. The second chapter gives some summary statistics while the third chapter is the main component. In this chapter we develop models that answer the given research questions. The last chapter refers to our conclusions.
+
+# Data editing
+
+```{r data editing, child = 'data_editing.Rmd'}
+```
+
+# Descriptive Analysis
+
+```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```
+

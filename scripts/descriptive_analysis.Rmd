@@ -1,0 +1,31 @@
+---
+pagetitle: "Descriptive Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
+---
+
+```{r packages descriptive analysis, include=FALSE}
+# Package names
+packages <- c()
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+```
+
+```{r get data descriptive analysis, echo = FALSE}
+# data_orig <- read.csv("../data/MARP_data.csv")
+# data <- read.csv("../data/MARP_data_edit.csv")
+```
+
+The final data ...

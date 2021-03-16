@@ -1,0 +1,26 @@
+---
+pagetitle: "Data Editing"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
+---
+
+```{r packages data editing, include=FALSE}
+# Package names
+packages <- c("dplyr")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+```
+
+First, we read in the main data set. 
