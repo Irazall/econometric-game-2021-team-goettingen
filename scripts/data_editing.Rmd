@@ -11,7 +11,7 @@ knit: (function(inputFile, encoding) {
 
 ```{r packages data editing, include=FALSE}
 # Package names
-packages <- c("dplyr", "haven")
+packages <- c("dplyr", "haven","lubridate")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -29,7 +29,7 @@ First, we read in the main data set.
 ```{r}
 
 data<-read_dta(
-  ".../data/AIRBNB_Houseprices.dta",
+  "../data/AIRBNB_Houseprices.dta",
   encoding = NULL,
   col_select = NULL,
   skip = 0,
@@ -39,6 +39,7 @@ data<-read_dta(
 ```
 
 Transform data to factors, ordered etc., so that it can be properly read.
+
 ```{r}
 data$parking<-factor(data$parking)
 data$pc4<-factor(data$pc4)
@@ -48,5 +49,5 @@ data$monumentalstatus<-factor(data$monumentalstatus)
 data$buyerpaysorfree<-factor(data$buyerpaysorfree)
 data$quality<-ordered(data$quality)
 data$construction_period<-ordered(data$construction_period)
-
+data$sales_date<-ymd(data$sales_date)
 ```
