@@ -62,12 +62,16 @@ add control variables
 control$year <- as.numeric(control$year)
 control <- control[control$year<2019,]
 data <- merge(data, control, all=TRUE, sort = FALSE)
+data$hpi_groningen_change <- as.numeric(data$hpi_groningen_change)
+data$hpi_southholland_change <- as.numeric(data$hpi_southholland_change)
+data$hpi_nordbrabant_change <- as.numeric(data$hpi_nordbrabant_change)
+data$hpi_rotterdam_change <- as.numeric(data$hpi_rotterdam_change)
 any(is.na(data$lprice))
 ```
 
 read in tourist data with euclidean distance
 ```{r}
-euc.dist <- function(x11, x12, x21, x22) sqrt(sum((x1 - x2) ^ 2))
+euc.dist <- function(x11, x12, x21, x22) sqrt((x11 - x21 - x2) ^ 2))
 loc <- data.frame(data$rd_x, data$rd_y)
 for i in seq(1, )
 euc.dist(loc, tourist[1,])
@@ -109,16 +113,16 @@ data_c <- subset(data_c, data_c$rooms<=ro_c)
 finding cut points
 
 ```{r}
-tmp <- data
-tmp$year <- as.numeric(as.character(tmp$year))
-data_causal1 <- subset(tmp, tmp$year>=2014 & tmp$year<=2017)
-data_causal2 <- subset(tmp, tmp$year>=2009 & tmp$year<=2012)
+data_causal1 <- subset(data, data$year>=2014 & data$year<=2017)
+data_causal2 <- subset(data, data$year>=2009 & data$year<=2012)
 
-tmp <- data_c
-tmp$year <- as.numeric(as.character(tmp$year))
-data_causal1_c <- subset(tmp, tmp$year>=2014 & tmp$year<=2017)
-data_causal2_c <- subset(tmp, tmp$year>=2009 & tmp$year<=2012)
-
+data_causal1_c <- subset(data_c, data_c$year>=2014 & data_c$year<=2017)
+data_causal2_c <- subset(data_c, data_c$year>=2009 & data_c$year<=2012)
+write.csv(data_causal1, '../data/data_causal1.csv', row.names = FALSE)
+write.csv(data_causal2, '../data/data_causal2.csv', row.names = FALSE)
+write.csv(data_causal1_c, '../data/data_causal1_c.csv', row.names = FALSE)
+write.csv(data_causal2_c, '../data/data_causal2_c.csv', row.names = FALSE)
+write.csv(data_c, '../data/data_c.csv', row.names = FALSE)
 ```
 
 table original data
