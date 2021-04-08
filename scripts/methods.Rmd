@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Statistical Model
 To answer the research question, we consider the effect of AirBnBs on the Housing Price. The housing price is logarithmes to map the support of the random variable to the whole real line. For the model density is choosen as beeing the most important independent variable of the model. Density is considered a more informative information as distance. Thus distance is only utilized as a control variable. 
-The applied method is a general additive model (GAM). The dependent variable $log(price_{it})$ with $i=1,...,n$ is assumed to follow a scaled t distribution (Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and model selection for general smooth models. Journal of the American Statistical Association 111, 1548-1575 doi: ). The distribution is useful in place of Gaussian distribution, when the data are heavy tailed. The model equation is as follows:
+The applied method is a general additive model (GAM). The dependent variable $log(price_{it})$ with $i=1,...,n$ is assumed to follow a scaled t distribution (Wood, S.N., N. Pya and B. Saefken (2016) , Smoothing parameter and model selection for general smooth models. Journal of the American Statistical Association 111, 1548-1575 doi: ). The distribution is useful in place of Gaussian distribution, when the data are heavy tailed. The model equation is as follows:
 
 \[
 \eta_{it} = \beta_0 + \beta_1 wtype_{it}  + \beta_2 construction\_period_{it} + \beta_3 garden_{it} + \\
@@ -31,7 +31,7 @@ It is often assumed that the function that models the dependence between depende
 
 
 Further, the effect of $pc4$ is modelled as a random effect with $pc4_t \sim N(0,\sigma_\gamma)$. This is so one can leanr about the 
-For more details see GAM SIMON WOOD.
+For more details see Generaliyed Additive Models an Introduction with R.
 The model can be estimated via maximum likelihood estimation. The \textit{mgcv} package by Simon Wood was used.
 
 

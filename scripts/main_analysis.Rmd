@@ -40,15 +40,15 @@ plot(gaussian)
 par(mfrow=c(1,2))
 {qqnorm(residuals.gam(scatmodel))
 lines(qqline(residuals.gam(scatmodel),col=2))}
-hist(residuals(scatmodel), freq =F)
-lines(density(residuals(scatmodel)), col=2)
+{hist(residuals(scatmodel), freq =F)
+lines(density(residuals(scatmodel)), col=2)}
 
-qqnorm(residuals.gam(gaussianmodel))
-qqline(residuals.gam(gaussianmodel),col=2)
-hist(residuals(gaussianmodel), freq =F)
-lines(density(residuals(gaussianmodel)), col=2)
-
+{qqnorm(residuals.gam(gaussianmodel))
+qqline(residuals.gam(gaussianmodel),col=2)}
+{hist(residuals(gaussianmodel), freq =F)
+lines(density(residuals(gaussianmodel)), col=2)}
 ```
+One can observe that the gaussian distribution is inadequate. It 
 For a robustness check the model was estimated with the data from 2009 to 2012 as well.
 
 ```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
@@ -61,3 +61,5 @@ scatmodel_robust<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
 summary(scatmodel_robust)
 plot(scatmodel_robust)
 ```
+Thus we see the model is robust.
+
