@@ -38,7 +38,7 @@ data<-read_dta(
   .name_repair = "unique"
 )
 control <- read_excel("../data/controls.xlsx")
-tourist <- read.table("../data/tourist_coord.txt", stringsAsFactors = TRUE)
+tourist <- read.table("../data/tourist_coord.txt")
 ```
 
 Transform data to factors, ordered etc., so that it can be properly read.
@@ -60,15 +60,17 @@ any(is.na(data))
 add control variables
 ```{r}
 control$year <- as.numeric(control$year)
+control <- control[control$year<2019,]
 data <- merge(data, control, all=TRUE, sort = FALSE)
+any(is.na(data$lprice))
 ```
 
 read in tourist data with euclidean distance
 ```{r}
-tourist$V1 <- as.numeric(as.character(tourist$V1))
-euc.dist <- function(x1, x2) sqrt(sum((x1 - x2) ^ 2))
+euc.dist <- function(x11, x12, x21, x22) sqrt(sum((x1 - x2) ^ 2))
 loc <- data.frame(data$rd_x, data$rd_y)
-euc.dist(loc[1,], tourist[1,])
+for i in seq(1, )
+euc.dist(loc, tourist[1,])
 data$tourist <- cdata$rd_x
 ```
 
