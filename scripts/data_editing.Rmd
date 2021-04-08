@@ -11,7 +11,8 @@ knit: (function(inputFile, encoding) {
 
 ```{r packages data editing, include=FALSE}
 # Package names
-packages <- c("dplyr", "haven","lubridate","ggplot2", "corrplot", "psych")
+packages <- c("dplyr", "haven","lubridate","ggplot2", "corrplot", "psych",
+              "readxl")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -36,6 +37,8 @@ data<-read_dta(
   n_max = Inf,
   .name_repair = "unique"
 )
+control <- read_excel("../data/controls.xlsx")
+tourist <- read.table("../data/tourist_coord.txt", stringsAsFactors = TRUE)
 ```
 
 Transform data to factors, ordered etc., so that it can be properly read.
@@ -50,17 +53,29 @@ data$buyerpaysorfree<-factor(data$buyerpaysorfree)
 data$quality<-ordered(data$quality)
 data$construction_period<-ordered(data$construction_period)
 data$sales_date<-ymd(data$sales_date)
-data$year<- as.factor(data$year)
 data$lprice <- log(data$price)
 data$lsize <- log(data$size)
 any(is.na(data))
 ```
+add control variables
+```{r}
+control$year <- as.numeric(control$year)
+data <- merge(data, control, all=TRUE, sort = FALSE)
+```
 
+read in tourist data with euclidean distance
+```{r}
+tourist$V1 <- as.numeric(as.character(tourist$V1))
+euc.dist <- function(x1, x2) sqrt(sum((x1 - x2) ^ 2))
+loc <- data.frame(data$rd_x, data$rd_y)
+euc.dist(loc[1,], tourist[1,])
+data$tourist <- cdata$rd_x
+```
 
 Descriptive plots
 
 ```{r}
-ggplot(data = data, aes(x= year, y = lprice)) +
+ggplot(data = data, aes(x= as.factor(year), y = lprice)) +
   geom_boxplot()+
   theme_bw()+
   labs(y= "Log Price", x = "Year" )+
@@ -103,8 +118,6 @@ data_causal1_c <- subset(tmp, tmp$year>=2014 & tmp$year<=2017)
 data_causal2_c <- subset(tmp, tmp$year>=2009 & tmp$year<=2012)
 
 ```
-
-which(data_causal1$year>=2014) & which(data_causal1$year<=2017)
 
 table original data
 ```{r}
