@@ -25,11 +25,13 @@ invisible(lapply(packages, library, character.only = TRUE))
 
 ## Design
 
-Causal inference using observational data is difficult. Usually, natural experiments are key as the respective randomization accounts for unobserved effects. In order to find a natural experiment in our data
+Causal inference using observational data is difficult. Usually, natural experiments are key as the respective randomization accounts for unobserved effects. In order to find a natural experiment in our data, we follow a Regression Discontinuity Design. 
+This approach is already used by Koster et al. 2019. In this study, Airbnb listings close to a border between states that adopted Home Sharing Ordinances and states that did not where analysed in order to check if these Ordinances have a causal effect on house prices. As we do not have this kind of spatial data, we define the uprise of Airbnb listings as turning point for our natural experiment. As treatment, we define observations that were sold after this turning point. This means that we assume that there is a break point in time in which people did not deliberately bought houses considering the uprise of Airbnb. 
+This assumption is not without drawbacks. Hence, we follow the usually proceeding with Regression Discontinuity Designs, meaning we use a very narrow interval around the turning point. That is why we choose only two years before and after the turning point.
 
-We read the data that we got from the GIS maps.
+In order to calculate the turning point, we use the data that we got from the GIS maps.
 
-```{r get airbnb_data}
+```{r get airbnb_data, include = FALSE}
 airbnb_data <- read.csv("../data/airbnb/airbnb_2008.csv")
 tmp <- read.csv("../data/airbnb/airbnb_2009.csv")
 tmp <- tmp[tmp$Year == 2009,]
@@ -41,12 +43,12 @@ for(i in 10:18){
 }
 ```
 
-We only look at new listings per year.
+We look at new listings per year.
 
-```{r plot by time}
+```{r plot by time, echo = FALSE}
 airbnb_data_edit <- airbnb_data[airbnb_data$Year >= 2008,]
 table(airbnb_data_edit$Year)
 
 ```
-We see that there is a great ascent in 2016. Another one is in 2011.
+We see that there is a great ascent in 2016. Another one is in 2011. So, we take 2016 as the primary turning point. 2011 will be taken for an robustness analysis.
 
