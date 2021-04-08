@@ -1,0 +1,52 @@
+---
+pagetitle: "Intro"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
+  
+references:
+- id: fenner2012a
+  title: One-click science marketing
+  author:
+  - family: Fenner
+    given: Martin
+  container-title: Nature Materials
+  volume: 11
+  URL: 'http://dx.doi.org/10.1038/nmat3283'
+  DOI: 10.1038/nmat3283
+  issue: 4
+  publisher: Nature Publishing Group
+  page: 261-263
+  type: article-journal
+  issued:
+    year: 2012
+    month: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction and Motivation
+
+Within the last decade house prices within Amsterdam have seen staggering growth, with the city ranking among the ten least affordable cities worldwide @knig . This ongoing trend of increasing housing scarcity has resulted in numerous research efforts aiming to understand the drive behind these developments. One potential influence on the observed behaviour of housing prices is the widespread establishment of \textit{Airbnb} within Amsterdam. Many works present a theoretical argument regarding the influence of peer-to-peer-rentals becoming more prevalent on the pricing of living spaces. Such and related works include @yorke, @alma and @garcia .
+
+The question of the relationship between Airbnb (or other peer-to-peer services) remains difficult to answer conclusively, since the driving forces of housing prices are numerous and intertwined. As such, a causal relationship needs to be argued clearly with the help of insightful design choices. Natural experiments, in the form of spatial or temporal differences due to policy implementations for example. Alternatively, the choice of methods may be instrumental in establishing or at least suggesting causality. @garcia have found that, in Barcelona, 54 more active Aribnb listings in a "small" neighborhood increase rents by 1.9%, while transaction and posted prices increase by 4.6% and 3.7%, respectively. 
+
+## References
+
+\begin{thebibliography}
+
+\bibitem[Almagro and Domínguez-Iino, 2021]{alma} Location Sorting and Endogenous Amenities:Evidence from Amsterdam.Available at: https://economics.yale.edu/sites/default/files/location_sorting_compressed.pdf#cite.garcia2019short (accessed 8 April, 2021)
+
+\bibitem[Garcia-López et al., 2020]{garcia} Do short-term rental platforms affect housing markets? Evidence from Airbnb in Barcelona. Journal of Urban Economics 119 (2020) 103278, 2020.
+
+\bibitem[Knight Frank, 2019]{knig} The Knight Frank global affordability monitor 2019. Available at: https://www.knightfrank.com/blog/2019/01/28/the-knight-frank-global-affordability-monitor-2019 (accessed 8 April, 2021).
+
+\bibitem[Overwater and Yorke-Smith, 2021]{yorke} Agent-based simulation of short-term peer-to-peer-rentals: Evidence from the Amsterdam housing market. EPB: Urban Analytics and City Science(0) 1–18, 2021.
+
+\end{thebibliography}
