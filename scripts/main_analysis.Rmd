@@ -10,37 +10,54 @@ The following plots show the regression table as well as the qq-plot, histogramm
 
 Scaled t distribution model
 ```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+library("mgcv")
 scatmodel<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
-          wtype + construction_period + garden + distance + 
+          wtype + construction_period + garden +
           lsize + parking + monumentalstatus + buyerpaysorfree +
-          quality + population +  gdp_change + hpi_groningen_change +   
-          hpi_southholland_change + hpi_nordbrabant_change + 
-          as.numeric(hpi_rotterdam_change) + accommodation_nl_change,
+          quality + population +  gdp_change + 
+          accommodation_nl_change ,
           family = scat, data=data_causal1)
 summary(scatmodel)
+plot(scatmodel)
 ```
+The 
 
 
+
+Gaussian distribution model
 ```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
 gaussianmodel<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
-          wtype + construction_period + garden + distance + 
+          wtype + construction_period + garden +
           lsize + parking + monumentalstatus + buyerpaysorfree +
-          quality + population +  gdp_change + hpi_groningen_change +   
-          hpi_southholland_change + hpi_nordbrabant_change + 
-          as.numeric(hpi_rotterdam_change) + accommodation_nl_change,
-          data=data_causal1)
+          quality + population +  gdp_change + 
+          accommodation_nl_change ,
+         data=data_causal1)
+summary(gaussian)
+plot(gaussian)
 ```
 
 ```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
 par(mfrow=c(1,2))
+{qqnorm(residuals.gam(scatmodel))
+lines(qqline(residuals.gam(scatmodel),col=2))}
+hist(residuals(scatmodel), freq =F)
+lines(density(residuals(scatmodel)), col=2)
+
 qqnorm(residuals.gam(gaussianmodel))
 qqline(residuals.gam(gaussianmodel),col=2)
 hist(residuals(gaussianmodel), freq =F)
 lines(density(residuals(gaussianmodel)), col=2)
 
-qqnorm(residuals.gam(scatmodel))
-qqline(residuals.gam(scatmodel),col=2)
-hist(residuals(scatmodel), freq =F)
-lines(density(residuals(scatmodel)), col=2)
 ```
 For a robustness check the model was estimated with the data from 2009 to 2012 as well.
+
+```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+scatmodel_robust<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
+          wtype + construction_period + garden +
+          lsize + parking + monumentalstatus + buyerpaysorfree +
+          quality + population +  gdp_change + 
+          accommodation_nl_change ,
+          family = scat, data=data_causal2)
+summary(scatmodel_robust)
+plot(scatmodel_robust)
+```
