@@ -1,6 +1,6 @@
 ---
 title: 'Econometric Game 2021 - Team Göttingen'
-author: "Chris-Gabriel Islam, Jens Lichter, Alexander Ritz and Rouven Schmidt"
+author: "Anonymous"
 date: "09/04/2021"
 output: 
   html_document:
@@ -11,15 +11,40 @@ knit: (function(inputFile, encoding) {
   })
 ---
 
-This is a dynamic report for the Econometric Game 2021 - Team Göttingen. In the first chapter we analyze the data and justify our edits. The second chapter gives some summary statistics while the third chapter is the main component. In this chapter we develop models that answer the given research questions. The last chapter refers to our conclusions.
+This is a dynamic report for the Econometric Game 2021. The advantage over a normal paper is its reproducibility. This dynamic report contains all data and calculation steps in order to reproduce our results. Especially during nowadays [replication crisis](https://en.wikipedia.org/wiki/Replication_crisis), this is of uttermost importance. In the first chapter we give an introduction as well as literature overview. Then, we describe our data. Next, we explain the design and the methods we use, before presenting our results. The last chapter refers to our conclusions.
 
-# Data editing
+# Introduction
 
-```{r data editing, child = 'data_editing.Rmd'}
+```{r data editing, child = 'intro.Rmd'}
 ```
 
-# Descriptive Analysis
+# Data description
+
+```{r data editing, child = 'data_description.Rmd'}
+```
+
+# Methods and design
+
+```{r data editing, child = 'methods.Rmd'}
+```
+
+```{r data editing, child = 'gis.Rmd'}
+```
+
+# Results
+
+## Descriptive analysis
 
 ```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```
+
+## Causal inference
+
+```{r descriptive analysis, child = 'main_analysis.Rmd'}
+```
+
+# Conclusion
+
+```{r data editing, child = 'conclusion.Rmd'}
 ```
 

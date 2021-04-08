@@ -23,6 +23,10 @@ if (any(installed_packages == FALSE)) {
 invisible(lapply(packages, library, character.only = TRUE))
 ```
 
+## Design
+
+Causal inference using observational data is difficult. Usually, natural experiments are key as the respective randomization accounts for unobserved effects. In order to find a natural experiment in our data
+
 We read the data that we got from the GIS maps.
 
 ```{r get airbnb_data}
