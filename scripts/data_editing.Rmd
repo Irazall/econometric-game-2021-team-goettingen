@@ -11,7 +11,7 @@ knit: (function(inputFile, encoding) {
 
 ```{r packages data editing, include=FALSE}
 # Package names
-packages <- c("dplyr")
+packages <- c("dplyr", "haven")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -22,9 +22,12 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
 ```
-library("haven")
+
 
 First, we read in the main data set. 
+
+```{r}
+
 data<-read_dta(
   "data/AIRBNB_Houseprices.dta",
   encoding = NULL,
@@ -33,4 +36,5 @@ data<-read_dta(
   n_max = Inf,
   .name_repair = "unique"
 )
+```
 
