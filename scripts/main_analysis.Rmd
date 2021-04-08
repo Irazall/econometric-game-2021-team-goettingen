@@ -20,7 +20,7 @@ scatmodel<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
 summary(scatmodel)
 plot(scatmodel)
 ```
-The 
+The important effect $density$ is significant, as well as $time$ and $pc4$. The majority of control variables is as well.
 
 
 
