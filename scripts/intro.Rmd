@@ -8,23 +8,6 @@ knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
   })
   
-references:
-- id: fenner2012a
-  title: One-click science marketing
-  author:
-  - family: Fenner
-    given: Martin
-  container-title: Nature Materials
-  volume: 11
-  URL: 'http://dx.doi.org/10.1038/nmat3283'
-  DOI: 10.1038/nmat3283
-  issue: 4
-  publisher: Nature Publishing Group
-  page: 261-263
-  type: article-journal
-  issued:
-    year: 2012
-    month: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -33,12 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction and Motivation
 
-Within the last decade house prices within Amsterdam have seen staggering growth, with the city ranking among the ten least affordable cities worldwide @knig . This ongoing trend of increasing housing scarcity has resulted in numerous research efforts aiming to understand the drive behind these developments. One potential influence on the observed behaviour of housing prices is the widespread establishment of \textit{Airbnb} within Amsterdam. Many works present a theoretical argument regarding the influence of peer-to-peer-rentals becoming more prevalent on the pricing of living spaces. Such and related works include @yorke, @alma and @garcia . Intuitively, an increased tourist acitivity may lead to lower housing prices due to the associated nuisances. However, an increase in prices due to a tighter market may outweigh this aforementioned effect. As such, it remains an open problem to quantify the suspected effects. The goal of this work is to estimate the effect of the amount of Airbnb listings in Amsterdam on the realised house prices within the city.
+Within the last decade house prices within Amsterdam have seen staggering growth, with the city ranking among the ten least affordable cities worldwide (Knight Frank; The Knight Frank global affordability monitor 2019). This ongoing trend of increasing housing scarcity has resulted in numerous research efforts aiming to understand the drive behind these developments. One potential influence on the observed behaviour of housing prices is the widespread establishment of \textit{Airbnb} within Amsterdam. Many works present a theoretical argument regarding the influence of peer-to-peer-rentals becoming more prevalent on the pricing of living spaces. Such and related works include Overwater and Yorke (Agent-based simulation of short-term peer-to-peer-rentals: Evidence from the Amsterdam housing market. EPB: Urban Analytics and City Science(0) 1–18, 2021), Almagro and Domínguez-Iilno (Location Sorting and Endogenous Amenities:Evidence from Amsterdam, 2021) and Garcia et al. (Do short-term rental platforms affect housing markets? Evidence from Airbnb in Barcelona. Journal of Urban Economics 119 (2020) 103278, 2020) . Intuitively, an increased tourist acitivity may lead to lower housing prices due to the associated nuisances. However, an increase in prices due to a tighter market may outweigh this aforementioned effect. As such, it remains an open problem to quantify the suspected effects. The goal of this work is to estimate the effect of the amount of Airbnb listings in Amsterdam on the realised house prices within the city.
 
-The question of the relationship between Airbnb (or other peer-to-peer services) and housing prices remains difficult to answer conclusively, since the driving forces of housing prices are numerous and intertwined. As such, a causal relationship needs to be argued clearly with the help of insightful design choices. Natural experiments, in the form of spatial or temporal differences due to policy implementations for example. Alternatively, the choice of methods may be instrumental in establishing or at least suggesting causality. @garcia have found that, in Barcelona, 54 more active Aribnb listings in a "small" neighborhood increase rents by 1.9%, while transaction and posted prices increase by 4.6% and 3.7%, respectively.
+The question of the relationship between Airbnb (or other peer-to-peer services) and housing prices remains difficult to answer conclusively, since the driving forces of housing prices are numerous and intertwined. As such, a causal relationship needs to be argued clearly with the help of insightful design choices. Natural experiments, in the form of spatial or temporal differences due to policy implementations for example. Alternatively, the choice of methods may be instrumental in establishing or at least suggesting causality. Garcia et al. (2020) have found that, in Barcelona, 54 more active Aribnb listings in a "small" neighborhood increase rents by 1.9%, while transaction and posted prices increase by 4.6% and 3.7%, respectively.
 Any analysis attempting to give an answer to the question of whether the widespread establishment of Airbnb in Amsterdam has caused an increase or decrease in housing prices has to account for a multitude of competing forces. Temporal and spatial effects have to be controlled in order to isolate the interesting effects. In order to handle these inherent complications of the subject matter, a flexible model rich in control variables was estimated in the following work.
 
-## References
 
 \begin{thebibliography}
 
