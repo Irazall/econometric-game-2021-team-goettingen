@@ -71,11 +71,17 @@ any(is.na(data$lprice))
 
 read in tourist data with euclidean distance
 ```{r}
-euc.dist <- function(x11, x12, x21, x22) sqrt((x11 - x21 - x2) ^ 2))
-loc <- data.frame(data$rd_x, data$rd_y)
-for i in seq(1, )
-euc.dist(loc, tourist[1,])
-data$tourist <- cdata$rd_x
+euc.dist <- function(x11, x12, x21, x22){
+  sqrt((x11 - x21)^2 + (x12- x22)^2)
+}
+tour <- matrix(,nrow = nrow(data), ncol = nrow(tourist))
+for (j in seq(1, nrow(tourist))){
+  for (i in seq(1, ncol(data))){
+    tour[i, j] <- euc.dist(data$rd_x[i], data$rd_y[i], tourist[j,1], tourist[j,2])
+  }
+}
+tour <- apply(tour, 1, mean)
+data$tour <-  tour
 ```
 
 Descriptive plots
@@ -118,6 +124,13 @@ data_causal2 <- subset(data, data$year>=2009 & data$year<=2012)
 
 data_causal1_c <- subset(data_c, data_c$year>=2014 & data_c$year<=2017)
 data_causal2_c <- subset(data_c, data_c$year>=2009 & data_c$year<=2012)
+
+data_causal1$time<-as.numeric(data_causal1$sales_date)-min(as.numeric(data_causal1$sales_date))
+data_causal2$time<-as.numeric(data_causal2$sales_date)-min(as.numeric(data_causal2$sales_date))
+
+data_causal1_c$time<-as.numeric(data_causal1_c$sales_date)-min(as.numeric(data_causal1_c$sales_date))
+data_causal2_c$time<-as.numeric(data_causal2_c$sales_date)-min(as.numeric(data_causal2_c$sales_date))
+
 write.csv(data_causal1, '../data/data_causal1.csv', row.names = FALSE)
 write.csv(data_causal2, '../data/data_causal2.csv', row.names = FALSE)
 write.csv(data_causal1_c, '../data/data_causal1_c.csv', row.names = FALSE)
