@@ -11,7 +11,7 @@ knit: (function(inputFile, encoding) {
 
 ```{r packages data editing, include=FALSE}
 # Package names
-packages <- c("dplyr", "haven","lubridate")
+packages <- c("dplyr", "haven","lubridate","ggplot2")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -50,4 +50,19 @@ data$buyerpaysorfree<-factor(data$buyerpaysorfree)
 data$quality<-ordered(data$quality)
 data$construction_period<-ordered(data$construction_period)
 data$sales_date<-ymd(data$sales_date)
+data$lprice <- log(data$price)
 ```
+
+Descriptive plots
+
+```{r}
+ggplot(data = data2, aes(x= sales_year, y = lprice)) +
+  geom_boxplot()+
+  theme_bw()+
+  labs(y= "Log Price", x = "Year" )+
+  theme(text=element_text(family="serif"))
+```
+
+
+
+
