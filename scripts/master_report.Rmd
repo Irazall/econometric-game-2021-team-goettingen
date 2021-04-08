@@ -13,6 +13,7 @@ knit: (function(inputFile, encoding) {
 
 This is a dynamic report for the Econometric Game 2021. The advantage over a normal paper is its reproducibility. This dynamic report contains all data and calculation steps in order to reproduce our results. Especially during nowadays [replication crisis](https://en.wikipedia.org/wiki/Replication_crisis), this is of uttermost importance. In the first chapter we give an introduction as well as literature overview. Then, we describe our data. Next, we explain the design and the methods we use, before presenting our results. The last chapter refers to our conclusions.
 
+
 # Introduction
 
 ```{r data editing, child = 'intro.Rmd'}
@@ -20,7 +21,7 @@ This is a dynamic report for the Econometric Game 2021. The advantage over a nor
 
 # Data description
 
-```{r data editing, child = 'data_description.Rmd'}
+```{r data description, child = 'data_description.Rmd'}
 ```
 
 # Methods and design
@@ -40,7 +41,7 @@ This is a dynamic report for the Econometric Game 2021. The advantage over a nor
 
 ## Causal inference
 
-```{r descriptive analysis, child = 'main_analysis.Rmd'}
+```{r descddripddddtive, child = 'main_analysis.Rmd'}
 ```
 
 # Conclusion

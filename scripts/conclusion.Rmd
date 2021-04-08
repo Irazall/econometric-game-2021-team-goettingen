@@ -8,7 +8,5 @@ knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
   })
 ---
-## Conclusion
-
 
 Our results seem to indicate a significant effect of the density of Airbnb listings on realised housing prices in Amsterdam. Accordingly, policy decisions regarding the control of peer-to-peer-renting services should be mindful of the influence these policies indirectly have on the prices on the housing market. Future research should focus on the exact quantification of the influence and potential interactions with policy decisions regarding tourism and taxation of peer-to-peer-rental services.

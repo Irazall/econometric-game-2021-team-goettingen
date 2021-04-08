@@ -1,13 +1,14 @@
 ---
-title: "methods"
-author: "Rouven Schmidt"
-date: "4/8/2021"
-output: html_document
+pagetitle: "methods"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 # Statistical Model
 To answer the research question, we consider the effect of AirBnBs on the Housing Price. The housing price is logarithmes to map the support of the random variable to the whole real line. For the model density is choosen as beeing the most important independent variable of the model. Density is considered a more informative information as distance. Thus distance is only utilized as a control variable. 
