@@ -11,7 +11,7 @@ knit: (function(inputFile, encoding) {
 
 ```{r packages data editing, include=FALSE}
 # Package names
-packages <- c("dplyr", "haven","lubridate","ggplot2")
+packages <- c("dplyr", "haven","lubridate","ggplot2", "corrplot", "psych")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -50,38 +50,71 @@ data$buyerpaysorfree<-factor(data$buyerpaysorfree)
 data$quality<-ordered(data$quality)
 data$construction_period<-ordered(data$construction_period)
 data$sales_date<-ymd(data$sales_date)
+data$year<- as.factor(data$year)
 data$lprice <- log(data$price)
-data$lsize <- log(data2$size)
+data$lsize <- log(data$size)
+any(is.na(data))
 ```
 
 
 Descriptive plots
 
 ```{r}
-ggplot(data = data2, aes(x= sales_year, y = lprice)) +
+ggplot(data = data, aes(x= year, y = lprice)) +
   geom_boxplot()+
   theme_bw()+
   labs(y= "Log Price", x = "Year" )+
   theme(text=element_text(family="serif"))
+ggplot(data = data, aes(x= rd_x, y = rd_y, col = lprice)) +
+  geom_point()+
+  theme_bw()+
+  labs(y= "Rd_y", x = "Rd_x" )+
+  theme(text=element_text(family="serif"))
+
 ```
 
-library("psych")
-library("fastDummies")
+data cleansing for robust model
+```{r}
+boxplot(data$lprice)
+pr_c <- quantile(data$lprice, c(0.99))
+data_c <- subset(data, data$lprice<=pr_c)
+boxplot(data_c$lsize)
+si_c <- quantile(data_c$lsize, c(0.99))
+data_c <- subset(data_c, data_c$lsize<=si_c)
+boxplot(data_c$density)
+de_c <- quantile(data_c$density, c(0.99))
+data_c <- subset(data_c, data_c$density<=de_c)
+boxplot(data_c$rooms)
+ro_c <- quantile(data_c$rooms, c(0.99))
+data_c <- subset(data_c, data_c$rooms<=ro_c)
+```
 
-library("corrplot")
-library("knitr")
+finding cut points
 
+```{r}
+tmp <- data
+tmp$year <- as.numeric(as.character(tmp$year))
+data_causal1 <- subset(tmp, tmp$year>=2014 & tmp$year<=2017)
+data_causal2 <- subset(tmp, tmp$year>=2009 & tmp$year<=2012)
 
-corrplot(as.matrix(cor(na.omit(data))))
+tmp <- data_c
+tmp$year <- as.numeric(as.character(tmp$year))
+data_causal1_c <- subset(tmp, tmp$year>=2014 & tmp$year<=2017)
+data_causal2_c <- subset(tmp, tmp$year>=2009 & tmp$year<=2012)
 
-data <- fastDummies::dummy_cols(data, select_columns = "wtype")
-data <- fastDummies::dummy_cols(data, select_columns = "parking")
-data <- fastDummies::dummy_cols(data, select_columns = c("monumentalstatus","buyerpaysorfree","quality","garden"))
+```
 
-colnames(data)
-data$monumentalstatus <- as.numeric(data$monumentalstatus)
-colnames(data)
-kable(describe(data, omit=TRUE), caption = "Summary statistics", digits=3)
+which(data_causal1$year>=2014) & which(data_causal1$year<=2017)
 
+table original data
+```{r}
+names <- c("quality", "density", "garden" , "lsize"  ,              "volume"  , "rooms", "parking", "buyerpaysorfree" ,    "lprice")
+data2 <- data[,which(colnames(data) %in% names)]
+kable(describe(data2, omit=TRUE), caption = "Summary statistics", digits=3)
+```
+table cleaned data
 
-
+```{r}
+data2_c <- data_c[,which(colnames(data_c) %in% names)]
+kable(describe(data2_c, omit=TRUE), caption = "Summary statistics", digits=3)
+```
