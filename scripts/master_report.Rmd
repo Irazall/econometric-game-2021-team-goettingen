@@ -27,10 +27,10 @@ This is a dynamic report for the Econometric Game 2021 - Team Göttingen. In the
 The applied method is a general additive model (GAM). The dependent variable $log(price_i)$ with $i=1,...,n$ is assumed to follow a normal distribution. The model equation is as follows:
 
 \[
-log(price_{it}) = \beta_0 + \beta_1 wtype_{it}  + \beta_2 construction\_period_{it} + \beta_3 garden_{it} + \\
+E(log(price_{it})) = \beta_0 + \beta_1 wtype_{it}  + \beta_2 construction\_period_{it} + \beta_3 garden_{it} + \\
           \beta_4 size_{it} + \beta_5 parking_{it} + \beta_6 monumentalstatus_{it} + \beta_7 buyerpaysorfree_{it} + \\
           \beta_8 quality_{it} + \\
-          \gamma_{t} pc4_{it} +
+          \alpha_{t} pc4_{it} +
           f_1(denstiy_{it}) +
           f_2(time_{it})
           
@@ -40,7 +40,27 @@ where, one has to consider, that the categorial variables $wtype,construction\_p
 f_j(z_j)=\sum_{l=1}^{d_j} \gamma_{jl} B_l(z_j)
 \]
 where $d_j$ is the number dimension of the basis used to represent the smooth.
-Further, the effect of $pc4$ is modelled as a random effect with $pc4_t \sim N(0,\sigma_\gamma)$
+It is often assumed that the function that models the dependence between dependent and independent variable elongs to a parametric family of functions. This is quite restrictive and can lead to a serious modelling bias resulting in misleading conclusions about the link between independent and dependent variables (Giannakas et al., 2003). Thus the more general and flexible approach of penalized b-splines was choosen.
+Different smooth terms that can be included in the GAML and are introduced in detail in GAM. Here a brief introduction in penalized splines terms is given. For the sake of simplicity the indexes $i$ and $j$ are dropped in this section. The function $f(\cdot)$ can be approximated by piecewise polynomials. B-spline basis function consists  of $l+1$ polynomial pieces of degree $l$ , which are joined in an $(l-1)$-times continuously differentiable way. All b-spline basis functions are set up based on a given knot configuration $\kappa_1, \kappa_2,...,\kappa_{n'}$, which may be equidistant or based on quantiles. Using the complete basis, the function $f(x)$ can again be represented through a linear combination of $n'+l-1$ basis functions:
+\[
+f(x) = \sum_{q}^{n'+l-1}  B^l_{q}(x) \gamma_{q}
+\]
+The definition for b-splines of order $l=0$ is given by:
+\[
+B^0_{q}(x)=I(\kappa_q \leq x \leq \kappa_{q+1}) \quad q=1,...,n'+l
+\]
+Higher order B-splines are defined recursively:
+\[
+B^l_{q}(x)=\frac{x-\kappa_{q-l}}{\kappa_{q}-\kappa_{q-l}}B^{l-1}_{q-1}(x) +\frac{\kappa_{q+1} - x}{\kappa_{q+1}-\kappa_{q+1-l}}B^{l-1}_{q}(x)
+\]
+Choosing the correct number and position of the knots is an important task, as it influences the fit. \cite{eilers1996flexible} propose to use a relatively large number of knots and introduce a penalty for functions that are not smooth enough. To characterize the smoothness of any type of function, the use of (squared) derivatives is appropriate, since these represent measures for the variability of a function. The smoothness can be approximated by a difference of coefficients of adjacent B-splines:
+\[
+P_{smooth}(\boldsymbol{\gamma}, \lambda) = \lambda \sum_{q+2}^{n'+l-1} (\Delta^2 (\gamma_{q}))^2 
+\]
+Where $\Delta^d (\gamma_{q})$ is the $d$-th order difference operator of the vector $\boldsymbol{\gamma}$. The parameter $\lambda> 0$ influences the smoothness of the fitted curve. For small values of $\lambda$ the estimated function will be closer to the data, for high values of $\lambda$ the estimated curve will be smoother. For $\lambda \to \infty$ the curve will approximate a polynomial of degree $d-1$. The parameter $\lambda$ can be estimated via MLE or Grid Search.
+
+
+Further, the effect of $pc4$ is modelled as a random effect with $pc4_t \sim N(0,\sigma_\gamma)$. This is so one can leanr about the 
 For more details see GAM SIMON WOOD.
 The model can be estimated via maximum likelihood estimation. The \textit{mgcv} package by Simon Wood was used.
 
