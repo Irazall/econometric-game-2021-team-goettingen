@@ -22,5 +22,15 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
 ```
+library("haven")
 
 First, we read in the main data set. 
+data<-read_dta(
+  "data/AIRBNB_Houseprices.dta",
+  encoding = NULL,
+  col_select = NULL,
+  skip = 0,
+  n_max = Inf,
+  .name_repair = "unique"
+)
+
