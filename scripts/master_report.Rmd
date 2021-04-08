@@ -1,5 +1,5 @@
 ---
-title: 'Econometric Game 2021 - Team Göttingen'
+title: 'Econometric Game 2021 - Team 27'
 author: "Anonymous"
 date: "09/04/2021"
 output: 
