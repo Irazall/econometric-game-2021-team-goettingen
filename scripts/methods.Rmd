@@ -52,8 +52,5 @@ For more details see GAM SIMON WOOD.
 The model can be estimated via maximum likelihood estimation. The \textit{mgcv} package by Simon Wood was used.
 
 
-```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
-```
 
-# Esimtation Results
-The following plots show the regression table as well as the qq-plot, histogramm of the residuals. The model was compared to that 
+
