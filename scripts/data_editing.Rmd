@@ -39,7 +39,7 @@ data<-read_dta(
 ```
 
 Transform data to factors, ordered etc., so that it can be properly read.
-
+Take log size and price, because sizes are hugely skewed
 ```{r}
 data$parking<-factor(data$parking)
 data$pc4<-factor(data$pc4)
@@ -51,7 +51,9 @@ data$quality<-ordered(data$quality)
 data$construction_period<-ordered(data$construction_period)
 data$sales_date<-ymd(data$sales_date)
 data$lprice <- log(data$price)
+data$lsize <- log(data2$size)
 ```
+
 
 Descriptive plots
 
@@ -63,6 +65,23 @@ ggplot(data = data2, aes(x= sales_year, y = lprice)) +
   theme(text=element_text(family="serif"))
 ```
 
+library("psych")
+library("fastDummies")
+
+library("corrplot")
+library("knitr")
+
+
+corrplot(as.matrix(cor(na.omit(data))))
+
+data <- fastDummies::dummy_cols(data, select_columns = "wtype")
+data <- fastDummies::dummy_cols(data, select_columns = "parking")
+data <- fastDummies::dummy_cols(data, select_columns = c("monumentalstatus","buyerpaysorfree","quality","garden"))
+
+colnames(data)
+data$monumentalstatus <- as.numeric(data$monumentalstatus)
+colnames(data)
+kable(describe(data, omit=TRUE), caption = "Summary statistics", digits=3)
 
 
 
