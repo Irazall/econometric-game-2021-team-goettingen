@@ -1,0 +1,53 @@
+---
+pagetitle: "Data Description"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
+---
+
+```{r packages data editing, include=FALSE}
+# Package names
+packages <- c("tidyr", "dplyr", "data.table", "haven")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+```
+
+```{r read data data description, include = FALSE}
+
+data<-read_dta(
+  "../data/AIRBNB_Houseprices.dta",
+  encoding = NULL,
+  col_select = NULL,
+  skip = 0,
+  n_max = Inf,
+  .name_repair = "unique"
+)
+
+data_c <- read.csv("../data/data_c.csv")
+```
+
+
+Primarily, we use the microdata given by Brainbay. This comprises a data set about house prices from 2000 to 2018 in Amsterdam, in total `r nrow(data)` observations. Additionally, it contains meta-data about the house's size, the amount of rooms, and so forth.
+The data is already cleaned by Brainbay, i.e. house prices below € 25,000 and € 2.5 million are removed. Additionally, we exclude some outliers from this data set. Concrete, we top code the logarithmized price, the logarithmized size, the rooms and the density. This means we remove the upper and lower one percent for each respective variable which results in `r nrow(data_c)` observations. We decide for top coding as this a wildely used and rather conservative method in social sciences. Nonetheless, we report results also for the data set containing these outliers as we are not sure about the true distributions.
+
+Moreover, we use the GIS data given by Brainbay. This includes Airbnb listings per year with exact coordinates and additional meta-data, e.g. bed type, price and number of guests. This data helps us to measure the increase of Airbnb listings in time.
+
+### Additional data for controls
+
+In order to enrich our regression methods we want to control for additional variation that might not be caught in the given data sets. Hence, we gather the following data:
+
+* The population of Amsterdam from [Statista](https://www.statista.com/statistics/753235/total-population-of-amsterdam/)
+* The GDP of Nordniederlande from [CBS](https://opendata.cbs.nl/statline/#/CBS/en/dataset/84361ENG/table?ts=1617889396818)
+* House price indices for all provinces except Amsterdam from [CBS](https://opendata.cbs.nl/statline/#/CBS/en/dataset/81885ENG/table?fromstatweb)
+* The prices for accommodation services in The Netherlands from Eurostat (Table PRC_HICP_AIND)
