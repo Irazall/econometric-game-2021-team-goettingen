@@ -23,3 +23,30 @@ This is a dynamic report for the Econometric Game 2021 - Team Göttingen. In the
 ```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
 ```
 
+# Statistical Model
+The applied method is a general additive model (GAM). The dependent variable $log(price_i)$ with $i=1,...,n$ is assumed to follow a normal distribution. The model equation is as follows:
+
+\[
+log(price_{it}) = \beta_0 + \beta_1 wtype_{it}  + \beta_2 construction\_period_{it} + \beta_3 garden_{it} + \\
+          \beta_4 size_{it} + \beta_5 parking_{it} + \beta_6 monumentalstatus_{it} + \beta_7 buyerpaysorfree_{it} + \\
+          \beta_8 quality_{it} + \\
+          \gamma_{t} pc4_{it} +
+          f_1(denstiy_{it}) +
+          f_2(time_{it})
+          
+\]
+where, one has to consider, that the categorial variables $wtype,construction\_period, garden, parking, monumentalstatus, buyerpaysorfree$ and  $quality$ are dummy coded, thus resulting in multiple $\beta$. These are neglected for ease of notation, in the above equation. The non-linear functions $f_j$ for $j \in \{1,2\}$ are approximated using p-splines of the form: 
+\[
+f_j(z_j)=\sum_{l=1}^{d_j} \gamma_{jl} B_l(z_j)
+\]
+where $d_j$ is the number dimension of the basis used to represent the smooth.
+Further, the effect of $pc4$ is modelled as a random effect with $pc4_t \sim N(0,\sigma_\gamma)$
+For more details see GAM SIMON WOOD.
+The model can be estimated via maximum likelihood estimation. The \textit{mgcv} package by Simon Wood was used.
+
+
+```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```
+
+# Esimtation Results
+

@@ -11,7 +11,8 @@ knit: (function(inputFile, encoding) {
 
 ```{r packages data editing, include=FALSE}
 # Package names
-packages <- c("dplyr", "haven","lubridate","ggplot2")
+packages <- c("dplyr", "haven","lubridate","ggplot2", "corrplot", "psych",
+              "readxl")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -36,6 +37,8 @@ data<-read_dta(
   n_max = Inf,
   .name_repair = "unique"
 )
+control <- read_excel("../data/controls.xlsx")
+tourist <- read.table("../data/tourist_coord.txt")
 ```
 
 Transform data to factors, ordered etc., so that it can be properly read.
@@ -51,37 +54,86 @@ data$quality<-ordered(data$quality)
 data$construction_period<-ordered(data$construction_period)
 data$sales_date<-ymd(data$sales_date)
 data$lprice <- log(data$price)
-data$lsize <- log(data2$size)
+data$lsize <- log(data$size)
+any(is.na(data))
+```
+add control variables
+```{r}
+control$year <- as.numeric(control$year)
+control <- control[control$year<2019,]
+data <- merge(data, control, all=TRUE, sort = FALSE)
+data$hpi_groningen_change <- as.numeric(data$hpi_groningen_change)
+data$hpi_southholland_change <- as.numeric(data$hpi_southholland_change)
+data$hpi_nordbrabant_change <- as.numeric(data$hpi_nordbrabant_change)
+data$hpi_rotterdam_change <- as.numeric(data$hpi_rotterdam_change)
+any(is.na(data$lprice))
 ```
 
+read in tourist data with euclidean distance
+```{r}
+euc.dist <- function(x11, x12, x21, x22) sqrt((x11 - x21 - x2) ^ 2))
+loc <- data.frame(data$rd_x, data$rd_y)
+for i in seq(1, )
+euc.dist(loc, tourist[1,])
+data$tourist <- cdata$rd_x
+```
 
 Descriptive plots
 
 ```{r}
-ggplot(data = data2, aes(x= sales_year, y = lprice)) +
+ggplot(data = data, aes(x= as.factor(year), y = lprice)) +
   geom_boxplot()+
   theme_bw()+
   labs(y= "Log Price", x = "Year" )+
   theme(text=element_text(family="serif"))
+ggplot(data = data, aes(x= rd_x, y = rd_y, col = lprice)) +
+  geom_point()+
+  theme_bw()+
+  labs(y= "Rd_y", x = "Rd_x" )+
+  theme(text=element_text(family="serif"))
+
 ```
 
-library("psych")
-library("fastDummies")
+data cleansing for robust model
+```{r}
+boxplot(data$lprice)
+pr_c <- quantile(data$lprice, c(0.99))
+data_c <- subset(data, data$lprice<=pr_c)
+boxplot(data_c$lsize)
+si_c <- quantile(data_c$lsize, c(0.99))
+data_c <- subset(data_c, data_c$lsize<=si_c)
+boxplot(data_c$density)
+de_c <- quantile(data_c$density, c(0.99))
+data_c <- subset(data_c, data_c$density<=de_c)
+boxplot(data_c$rooms)
+ro_c <- quantile(data_c$rooms, c(0.99))
+data_c <- subset(data_c, data_c$rooms<=ro_c)
+```
 
-library("corrplot")
-library("knitr")
+finding cut points
 
+```{r}
+data_causal1 <- subset(data, data$year>=2014 & data$year<=2017)
+data_causal2 <- subset(data, data$year>=2009 & data$year<=2012)
 
-corrplot(as.matrix(cor(na.omit(data))))
+data_causal1_c <- subset(data_c, data_c$year>=2014 & data_c$year<=2017)
+data_causal2_c <- subset(data_c, data_c$year>=2009 & data_c$year<=2012)
+write.csv(data_causal1, '../data/data_causal1.csv', row.names = FALSE)
+write.csv(data_causal2, '../data/data_causal2.csv', row.names = FALSE)
+write.csv(data_causal1_c, '../data/data_causal1_c.csv', row.names = FALSE)
+write.csv(data_causal2_c, '../data/data_causal2_c.csv', row.names = FALSE)
+write.csv(data_c, '../data/data_c.csv', row.names = FALSE)
+```
 
-data <- fastDummies::dummy_cols(data, select_columns = "wtype")
-data <- fastDummies::dummy_cols(data, select_columns = "parking")
-data <- fastDummies::dummy_cols(data, select_columns = c("monumentalstatus","buyerpaysorfree","quality","garden"))
+table original data
+```{r}
+names <- c("quality", "density", "garden" , "lsize"  ,              "volume"  , "rooms", "parking", "buyerpaysorfree" ,    "lprice")
+data2 <- data[,which(colnames(data) %in% names)]
+kable(describe(data2, omit=TRUE), caption = "Summary statistics", digits=3)
+```
+table cleaned data
 
-colnames(data)
-data$monumentalstatus <- as.numeric(data$monumentalstatus)
-colnames(data)
-kable(describe(data, omit=TRUE), caption = "Summary statistics", digits=3)
-
-
-
+```{r}
+data2_c <- data_c[,which(colnames(data_c) %in% names)]
+kable(describe(data2_c, omit=TRUE), caption = "Summary statistics", digits=3)
+```

@@ -1,0 +1,48 @@
+---
+pagetitle: "GIS"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
+---
+
+```{r packages data editing, include=FALSE}
+# Package names
+packages <- c("tidyr", "dplyr", "data.table")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+```
+
+We read the data that we got from the GIS maps.
+
+```{r get airbnb_data}
+airbnb_data <- read.csv("../data/airbnb/airbnb_2008.csv")
+tmp <- read.csv("../data/airbnb/airbnb_2009.csv")
+tmp <- tmp[tmp$Year == 2009,]
+airbnb_data <- merge(x = airbnb_data, y= tmp, all = TRUE)
+for(i in 10:18){
+  tmp <- read.csv(paste0("../data/airbnb/airbnb_20", i, ".csv"))
+  tmp <- tmp[tmp$Year == (2000+i),]
+  airbnb_data <- merge(x = airbnb_data, y= tmp, all = TRUE)
+}
+```
+
+We only look at new listings per year.
+
+```{r plot by time}
+airbnb_data_edit <- airbnb_data[airbnb_data$Year >= 2008,]
+table(airbnb_data_edit$Year)
+
+```
+We see that there is a great ascent in 2016. Another one is in 2011.
+
