@@ -74,9 +74,9 @@ read in tourist data with euclidean distance
 euc.dist <- function(x11, x12, x21, x22){
   sqrt((x11 - x21)^2 + (x12- x22)^2)
 }
-tour <- matrix(,nrow = nrow(data), ncol = nrow(tourist))
+tour <- matrix(NA, nrow = nrow(data), ncol = nrow(tourist))
 for (j in seq(1, nrow(tourist))){
-  for (i in seq(1, ncol(data))){
+  for (i in seq(1, nrow(data))){
     tour[i, j] <- euc.dist(data$rd_x[i], data$rd_y[i], tourist[j,1], tourist[j,2])
   }
 }
@@ -140,7 +140,7 @@ write.csv(data_c, '../data/data_c.csv', row.names = FALSE)
 
 table original data
 ```{r}
-names <- c("quality", "density", "garden" , "lsize"  ,              "volume"  , "rooms", "parking", "buyerpaysorfree" ,    "lprice")
+names <- c("quality", "density", "garden" , "lsize"  ,              "volume"  , "rooms", "parking", "buyerpaysorfree" , "lprice")
 data2 <- data[,which(colnames(data) %in% names)]
 kable(describe(data2, omit=TRUE), caption = "Summary statistics", digits=3)
 ```
