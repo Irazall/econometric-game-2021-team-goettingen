@@ -9,7 +9,7 @@ knit: (function(inputFile, encoding) {
   })
 ---
 
-```{r packages data editing, include=FALSE}
+```{r packages gis, include=FALSE}
 # Package names
 packages <- c("tidyr", "dplyr", "data.table")
 

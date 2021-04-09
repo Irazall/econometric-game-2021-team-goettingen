@@ -84,21 +84,6 @@ tour <- apply(tour, 1, mean)
 data$tour <-  tour
 ```
 
-Descriptive plots
-
-```{r}
-ggplot(data = data, aes(x= as.factor(year), y = lprice)) +
-  geom_boxplot()+
-  theme_bw()+
-  labs(y= "Log Price", x = "Year" )+
-  theme(text=element_text(family="serif"))
-ggplot(data = data, aes(x= rd_x, y = rd_y, col = lprice)) +
-  geom_point()+
-  theme_bw()+
-  labs(y= "Rd_y", x = "Rd_x" )+
-  theme(text=element_text(family="serif"))
-
-```
 
 data cleansing for robust model
 ```{r}

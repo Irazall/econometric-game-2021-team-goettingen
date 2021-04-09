@@ -1,16 +1,25 @@
 ---
-title: "main_analysis"
-author: "Rouven Schmidt"
-date: "4/8/2021"
-output: html_document
+pagetitle: "Main Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output") 
+  })
 ---
 
-# Esimtation Results
+## Esimtation Results
 The following plots show the regression table as well as the qq-plot, histogramm of the residuals. The model was compared to that of assuming a gaussian distribution of the dependent variable 
 
 Scaled t distribution model
-```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```{r masdasdasdsad analysis, echo = FALSE}
 library("mgcv")
+library("lubridate")
+data_causal1 <- read.csv("../data/data_causal1.csv")
+data_causal2 <- read.csv("../data/data_causal2.csv")
+data_causal2$sales_date<-ymd(data_causal2$sales_date)
+data_causal1$sales_date<-ymd(data_causal1$sales_date)
 scatmodel<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
           wtype + construction_period + garden +
           lsize + parking + monumentalstatus + buyerpaysorfree +
@@ -25,18 +34,19 @@ The important effect $density$ is significant, as well as $time$ and $pc4$. The 
 
 
 Gaussian distribution model
-```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```{r descriptive anaasdadsdsdsadlysis, echo = FALSE}
 gaussianmodel<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
           wtype + construction_period + garden +
           lsize + parking + monumentalstatus + buyerpaysorfree +
           quality + population +  gdp_change + 
           accommodation_nl_change ,
-         data=data_causal1)
-summary(gaussian)
-plot(gaussian)
+          data=data_causal1)
+
+summary(gaussianmodel)
+plot(gaussianmodel)
 ```
 
-```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```{r descriptive analyasdasdddasdsis, echo = FALSE}
 par(mfrow=c(1,2))
 {qqnorm(residuals.gam(scatmodel))
 lines(qqline(residuals.gam(scatmodel),col=2))}
@@ -51,7 +61,7 @@ lines(density(residuals(gaussianmodel)), col=2)}
 One can observe that the gaussian distribution is inadequate. It 
 For a robustness check the model was estimated with the data from 2009 to 2012 as well.
 
-```{r descriptive analysis, child = 'descriptive_analysis.Rmd'}
+```{r descriptive analadaddsdasdysis, echo = FALSE}
 scatmodel_robust<-bam(lprice ~s(density) + s(time) + s(pc4,bs="re") +
           wtype + construction_period + garden +
           lsize + parking + monumentalstatus + buyerpaysorfree +
